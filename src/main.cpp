@@ -16,7 +16,7 @@
 #include <sys/resource.h>
 #include <gmpxx.h>
 #include <limits>
-#include "mpfr/mpreal.h"
+#include "mpreal.h"
 
 #include <random>
 

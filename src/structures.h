@@ -15,7 +15,7 @@
 #include <cassert>
 #include "primitive_types.h"
 #include <gmpxx.h>
-#include "mpfr/mpreal.h"
+#include "mpreal.h"
 using namespace std;
 
 struct SDouble {

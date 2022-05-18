@@ -5,7 +5,8 @@
 
 #include "utils.hpp"
 #include "graph.hpp"
-#include "../mpfr/mpreal.h"
+#include "mpfr.h"
+#include "../mpreal.h"
 
 namespace sspp {
 struct Instance {

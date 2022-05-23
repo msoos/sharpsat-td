@@ -90,6 +90,7 @@ int main(int argc, char *argv[]) {
   uint64_t max_cache = 0;
 
   int weighted = 0;
+  string ppstr = "FPVSEGV";
 
   for (int i = 1; i < argc; i++) {
     if (strcmp(argv[i], "-WD") == 0) {
@@ -132,6 +133,12 @@ int main(int argc, char *argv[]) {
         return -1;
       }
       pptoutdiv = atoi(argv[++i]);
+    } else if (strcmp(argv[i], "-ppstr") == 0) {
+      if (argc <= i + 1) {
+        cout << " wrong parameters" << endl;
+        return -1;
+      }
+      ppstr = string(argv[++i]);
     } else if (strcmp(argv[i], "-decow") == 0) {
       if (argc <= i + 1) {
         cout << " wrong parameters" << endl;
@@ -169,7 +176,7 @@ int main(int argc, char *argv[]) {
     sspp::Preprocessor ppp;
     ppp.SetMaxGTime(150/pptoutdiv);
     ppp.SetMaxSparsTime(120/pptoutdiv);
-    ins = ppp.Preprocess(ins, "FPVSEGV");
+    ins = ppp.Preprocess(ins, ppstr.c_str());
     ins.UpdClauseInfo();
     cout<<"c o Preprocessed. "<<glob_timer.get()<<"s Vars: "<<ins.vars<<" Clauses: "<<ins.clauses.size()<<" Free vars: "<<ppp.FreeVars()<<endl;
     if (ins.vars == 1) {

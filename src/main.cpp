@@ -83,6 +83,7 @@ int main(int argc, char *argv[]) {
 
   string tmp_dir;
   double decot = -1;
+  int pptoutdiv = 1;
 
   SolverConfiguration config_;
 
@@ -125,6 +126,12 @@ int main(int argc, char *argv[]) {
         return -1;
       }
       decot = atof(argv[++i]);
+    } else if (strcmp(argv[i], "-pptoutdiv") == 0) {
+      if (argc <= i + 1) {
+        cout << " wrong parameters" << endl;
+        return -1;
+      }
+      pptoutdiv = atoi(argv[++i]);
     } else if (strcmp(argv[i], "-decow") == 0) {
       if (argc <= i + 1) {
         cout << " wrong parameters" << endl;
@@ -160,8 +167,8 @@ int main(int argc, char *argv[]) {
   if (weighted == 0) {
     sspp::Instance ins(input_file, false);
     sspp::Preprocessor ppp;
-    ppp.SetMaxGTime(150);
-    ppp.SetMaxSparsTime(120);
+    ppp.SetMaxGTime(150/pptoutdiv);
+    ppp.SetMaxSparsTime(120/pptoutdiv);
     ins = ppp.Preprocess(ins, "FPVSEGV");
     ins.UpdClauseInfo();
     cout<<"c o Preprocessed. "<<glob_timer.get()<<"s Vars: "<<ins.vars<<" Clauses: "<<ins.clauses.size()<<" Free vars: "<<ppp.FreeVars()<<endl;

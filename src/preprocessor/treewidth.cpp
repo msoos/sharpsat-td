@@ -63,7 +63,7 @@ TreeDecomposition Treedecomp(const Graph& graph, double time, string tmp_dir) {
 	int status = system(cmd.c_str());
 	assert(status >= 0);
 	assert(WIFEXITED(status));
-	//assert(WEXITSTATUS(status) == 124); // TIMEOUT timed out
+	assert(WEXITSTATUS(status) == 124); // TIMEOUT timed out
 	cout << "c o tw finish ok" << endl;
 	TreeDecomposition dec(0, 0);
 	std::ifstream in(tmp2);

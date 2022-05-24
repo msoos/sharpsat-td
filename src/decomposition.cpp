@@ -172,7 +172,7 @@ pair<int, vector<int>> Treewidth(const Graph& graph, double time) {
 	int status = system(cmd.c_str());
 	assert(status >= 0);
 	assert(WIFEXITED(status));
-	assert(WEXITSTATUS(status) == 124); // TIMEOUT timed out
+	//assert(WEXITSTATUS(status) == 124); // TIMEOUT timed out
 	cout << "tw finish ok" << endl;
 	int width = 0;
 	vector<vector<int>> bags;

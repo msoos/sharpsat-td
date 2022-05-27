@@ -134,6 +134,12 @@ Instance::Instance(string input_file, bool weighted_) {
 				int dlit = stoi(t);
 				if (dlit == 0) {
 					read_clauses++;
+					if (cur_clause.empty()) {
+					    vars = 0;
+					    unsat = true;
+					    clauses.clear();
+					    goto end;
+					}
 					AddClause(cur_clause);
 					cur_clause.clear();
 				} else {
@@ -158,6 +164,7 @@ Instance::Instance(string input_file, bool weighted_) {
 	if (pline_clauses != read_clauses) {
 		cout<<"c o Warning: p line mismatch. Claimed clauses: "<<pline_clauses<<" actual clauses: "<<read_clauses<<endl;
 	}
+	end:
 	cout<<"c o Parsed "<<vars<<" vars, "<<clauses.size()<<" clauses, and "<<read_weights<<" weights."<<endl;
 	UpdClauseInfo();
 }

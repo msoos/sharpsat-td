@@ -9,7 +9,7 @@ namespace sspp {
 class Preprocessor {
  public:
  	Instance Preprocess(Instance ins, const string& techniques);
- 	Instance Preprocess(int vars_, vector<vector<Lit>> clauses_, string techniques);
+ 	Instance Preprocess(int vars_, vector<vector<Lit>> clauses_, bool _unsat, string techniques);
  	int FreeVars() const;
  	void SetMaxGTime(double time);
  	void SetMaxSparsTime(double time);

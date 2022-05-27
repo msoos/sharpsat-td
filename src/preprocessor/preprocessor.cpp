@@ -151,7 +151,7 @@ void Preprocessor::Tighten(bool loop) {
 Instance Preprocessor::Preprocess(Instance inst, const string& techniques) {
 	weighted = inst.weighted;
 	weights = inst.weights;
-	return Preprocess(inst.vars, inst.clauses, techniques);
+	return Preprocess(inst.vars, inst.clauses, inst.unsat, techniques);
 }
 
 void Preprocessor::FailedLiterals() {
@@ -700,7 +700,7 @@ bool Preprocessor::DoTechniques(const string& techniques, int l, int r) {
 	return fixpoint;
 }
 
-Instance Preprocessor::Preprocess(int vars_, vector<vector<Lit>> clauses_, string techniques) {
+Instance Preprocessor::Preprocess(int vars_, vector<vector<Lit>> clauses_, bool _unsat, string techniques) {
 	if (techniques.empty() || techniques[0] != 'F') {
 		techniques = "F" + techniques;
 	}
@@ -711,6 +711,9 @@ Instance Preprocessor::Preprocess(int vars_, vector<vector<Lit>> clauses_, strin
 	learned_clauses.clear();
 	timer.start();
 	orig_vars = vars;
+	unsat = _unsat;
+	if (unsat) return UnsatInst();
+
 	var_map.resize(vars+1);
 	assign.resize(vars+1);
 	for (Var v = 1; v <= vars; v++) {

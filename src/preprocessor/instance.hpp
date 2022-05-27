@@ -35,6 +35,7 @@ struct Instance {
 
   vector<double> weights;
   int total_lits = 0;
+  bool unsat = false;
  private:
  	Lit RecConstruct(vector<Lit> clause);
  	int format = 0;

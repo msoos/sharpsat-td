@@ -471,7 +471,7 @@ T_num Solver<T_num>::solve(const sspp::Instance& pp_ins, const sspp::TreeDecompo
             if (cl_ofs != 0) {
               Instance<T_num>::conflict_clauses_.push_back(cl_ofs);
               Instance<T_num>::getHeaderOf(cl_ofs).set_length(literals.size());
-              Instance<T_num>::setGlue(cl_ofs, true);
+              Instance<T_num>::getHeaderOf(cl_ofs).setGlue(literals.size());
             } else if (literals.size() == 2){
               Instance<T_num>::statistics_.num_binary_conflict_clauses_++;
             } else if (literals.size() == 1)

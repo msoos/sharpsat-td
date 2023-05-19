@@ -176,7 +176,7 @@ int main(int argc, char *argv[]) {
     sspp::Preprocessor ppp;
     ppp.SetMaxGTime(150/pptoutdiv);
     ppp.SetMaxSparsTime(120/pptoutdiv);
-    ins = ppp.Preprocess(ins, ppstr.c_str());
+    /* ins = ppp.Preprocess(ins, ppstr.c_str()); */
     ins.UpdClauseInfo();
     cout<<"c o Preprocessed. "<<glob_timer.get()<<"s Vars: "<<ins.vars<<" Clauses: "<<ins.clauses.size()<<" Free vars: "<<ppp.FreeVars()<<endl;
     if (ins.vars == 1) {

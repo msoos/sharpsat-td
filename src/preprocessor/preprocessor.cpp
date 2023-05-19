@@ -647,6 +647,7 @@ bool Preprocessor::EliminateDefSimplicial() {
 	g_timer.stop();
 }
 
+// default is: string ppstr = "FPVSEGV";
 bool Preprocessor::DoTechniques(const string& techniques, int l, int r) {
 	if (unsat || vars == 0) return true;
 	if (l > r) return true;

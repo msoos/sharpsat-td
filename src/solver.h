@@ -458,6 +458,16 @@ T_num Solver<T_num>::solve(const sspp::Instance& pp_ins, const sspp::TreeDecompo
 		violated_clause.reserve(Instance<T_num>::num_variables());
 
 		comp_manager_.initialize(Instance<T_num>::literals_, Instance<T_num>::literal_pool_, hasher_);
+        //add learnts here
+        vector<LiteralID> literals;
+        for (const auto& clause : pp_ins.learned_clauses) {
+          literals.clear();
+          for (sspp::Lit lit : clause) {
+            literals.push_back(sspp::ToDimacs(lit));
+          }
+          assert(!literals.empty());
+          Instance<T_num>::addClause(literals);
+        }
 
 		Instance<T_num>::statistics_.exit_state_ = countSAT();
 

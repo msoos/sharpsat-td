@@ -117,6 +117,26 @@ Instance::Instance(string input_file, bool weighted_) {
 			weights[Neg(lit)] = (double)1-w;
 			read_weights++;
 		} else if (tokens[0] == "c") {
+            if (tokens[1] != "red") continue;
+			for (uint32_t i = 2; i < tokens.size(); i++) {
+                string& t = tokens[i];
+				assert(IsInt(t, -vars, vars));
+				int dlit = stoi(t);
+				if (dlit == 0) {
+					read_clauses++;
+					if (cur_clause.empty()) {
+					    vars = 0;
+					    unsat = true;
+					    clauses.clear();
+					    goto end;
+					}
+					AddLearnedClause(cur_clause);
+					cur_clause.clear();
+				} else {
+					Lit lit = FromDimacs(dlit);
+					cur_clause.push_back(lit);
+				}
+			}
 			continue;
 		} else if (format == 0 && tokens.size() == 4 && tokens[0] == "p" && tokens[1] == "cnf") {
 			format = 1;

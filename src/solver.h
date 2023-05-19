@@ -460,13 +460,22 @@ T_num Solver<T_num>::solve(const sspp::Instance& pp_ins, const sspp::TreeDecompo
 		comp_manager_.initialize(Instance<T_num>::literals_, Instance<T_num>::literal_pool_, hasher_);
         //add learnts here
         vector<LiteralID> literals;
+        cout << "c o learnts: " << pp_ins.learned_clauses.size() << endl;
         for (const auto& clause : pp_ins.learned_clauses) {
           literals.clear();
           for (sspp::Lit lit : clause) {
             literals.push_back(sspp::ToDimacs(lit));
           }
           assert(!literals.empty());
-          Instance<T_num>::addClause(literals);
+          auto cl_ofs = Instance<T_num>::addClause(literals);
+            if (cl_ofs != 0) {
+              Instance<T_num>::conflict_clauses_.push_back(cl_ofs);
+              Instance<T_num>::getHeaderOf(cl_ofs).set_length(literals.size());
+              Instance<T_num>::setGlue(cl_ofs, true);
+            } else if (literals.size() == 2){
+              Instance<T_num>::statistics_.num_binary_conflict_clauses_++;
+            } else if (literals.size() == 1)
+              Instance<T_num>::statistics_.num_unit_clauses_++;
         }
 
 		Instance<T_num>::statistics_.exit_state_ = countSAT();

@@ -181,20 +181,40 @@ int main(int argc, char *argv[]) {
     cout<<"c o Preprocessed. "<<glob_timer.get()<<"s Vars: "<<ins.vars<<" Clauses: "<<ins.clauses.size()<<" Free vars: "<<ppp.FreeVars()<<endl;
     if (ins.vars == 1) {
       assert(ins.clauses.size() == 2);
-      PrintSat(false);
-      PrintType(ins);
-      PrintLog10((mpz_class)0);
-      PrintExact((mpz_class)0);
+      /* PrintSat(false); */
+      /* PrintType(ins); */
+      /* PrintLog10((mpz_class)0); */
+      /* PrintExact((mpz_class)0); */
+      cout << "p cnf 1 2" << endl;
+      cout << "1 0" << endl;
+      cout << "-1 0" << endl;
+      cout << "c finished prepro in " << glob_timer.get() << endl;
       return 0;
     }
     mpz_class ans0 = sspp::Power2<mpz_class>(ppp.FreeVars());
     if (ins.vars == 0) {
       PrintSat(true);
       PrintType(ins);
-      PrintLog10(ans0);
-      PrintExact(ans0);
+      /* PrintLog10(ans0); */
+      /* PrintExact(ans0); */
+      cout << "p cnf 0 0" << endl;
+      cout << "c MUST MULTIPLY 2**" << ppp.FreeVars() << endl;
+      cout << "c finished prepro in " << glob_timer.get() << endl;
       return 0;
     }
+    if (true) {
+        cout << "p cnf " << ins.vars << " " << ins.clauses.size() << endl;
+        cout << "c MUST MULTIPLY 2**" << ppp.FreeVars() << endl;
+        for(const auto& c: ins.clauses) {
+            for(const auto& l: c) {
+                cout << l << " ";
+            }
+            cout << "0" << endl;
+        }
+        cout << "c finished prepro in " << glob_timer.get() << endl;
+        exit(0);
+    }
+
     sspp::Graph primal(ins.vars, ins.clauses);
     sspp::TreeDecomposition tdecomp = sspp::decomp::Treedecomp(primal, decot, tmp_dir);
     cout<<"c o Now solving. "<<glob_timer.get()<<endl;

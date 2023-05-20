@@ -197,8 +197,9 @@ int main(int argc, char *argv[]) {
       PrintType(ins);
       /* PrintLog10(ans0); */
       /* PrintExact(ans0); */
-      cout << "p cnf 0 0" << endl;
+      cout << "p cnf 1 1" << endl;
       cout << "c MUST MULTIPLY 2**" << ppp.FreeVars() << endl;
+      cout << "1 0" << endl;
       cout << "c finished prepro in " << glob_timer.get() << endl;
       return 0;
     }

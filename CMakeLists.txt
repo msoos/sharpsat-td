@@ -1,4 +1,10 @@
 cmake_minimum_required (VERSION 3.11)
+
+enable_language( CXX )
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_CXX_STANDARD 20)
+
 project (SHARPSAT) 
 
 option(STATIC "STATIC" OFF)
@@ -16,8 +22,7 @@ set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS)
 set(BUILD_SHARED_LIBS OFF)
 endif(STATIC)
 
-set(CMAKE_CXX_FLAGS "-std=c++11 -O3 -Wall -g")
-SET(CMAKE_C_FLAGS "-std=c99 -Wall -msse4.1 -mpclmul")
+set(CMAKE_CXX_FLAGS "-march=native -std=c++17 -O3 -Wall -g")
 
 find_library(GMP_LIB gmp)
 find_library(GMPXX_LIB gmpxx)
@@ -35,7 +40,7 @@ SET(SOURCES
 	src/preprocessor/treewidth.cpp
 	src/preprocessor/twpp.cpp
 	src/decomposition.cpp
-	src/clhash/clhash.c
+	src/clhash/clhash.cpp
 )
 
 add_executable (sharpSAT src/main.cpp ${SOURCES})

@@ -170,12 +170,19 @@ private:
 		if (config_.vsads_freq) {
 			score += comp_manager_.scoreOf(v);
 		}
+        uint32_t toprint = (statistics().num_decisions_ % 100000) == 0;
+        toprint = 1;
+        toprint = 0;
+        if (toprint) cout << "-----------" << endl;
+        if (toprint) cout << "v: " << v << " score1: " << score << endl;
 		if (config_.vsads_act) {
 			score += 10.0 * Instance<T_num>::literal(LiteralID(v, true)).activity_score_;
 			score += 10.0 * Instance<T_num>::literal(LiteralID(v, false)).activity_score_;
 		}
+        if (toprint) cout << "v: " << v << " score2: " << score << endl;
 		assert(v >= 0 && v < Instance<T_num>::extra_score.size());
 		score += Instance<T_num>::extra_score[v];
+        if (toprint) cout << "v: " << v << " score3: " << score << endl;
 		return score;
 	}
 
@@ -553,6 +560,7 @@ void Solver<T_num>::decideLiteral() {
 	LiteralID theLit(max_score_var,
 			Instance<T_num>::literal(LiteralID(max_score_var, true)).activity_score_
 					> Instance<T_num>::literal(LiteralID(max_score_var, false)).activity_score_);
+    /* cout << "decided on: " << std::setw(4) << theLit.var() << " sign:" << theLit.sign() <<  endl; */
 
 
 	setLiteralIfFree(theLit);

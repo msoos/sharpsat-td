@@ -301,7 +301,7 @@ bool Instance<T_num>::addBinaryClause(LiteralID litA, LiteralID litB) {
    return true;
  }
 
- 
+
 #include <algorithm>
 #include <fstream>
 #include <sys/stat.h>
@@ -794,6 +794,7 @@ void Instance<T_num>::PrepareTWScore(const sspp::TreeDecomposition& tdec, double
     extra_score[i] = max_ord - ord[i];
     extra_score[i] /= (double)max_ord;
     assert(extra_score[i] > -0.01 && extra_score[i] < 1.01);
+    cout << "TD var: " << i << " tdscore: " << std::setprecision(3) << std::fixed << extra_score[i] << endl;
   }
   // Now scores are between 0..1
   double coef = 1;

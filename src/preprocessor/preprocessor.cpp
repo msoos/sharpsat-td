@@ -182,7 +182,7 @@ void Preprocessor::Subsume() {
 	assert(IsSorted(clauses));
 	assert(IsSorted(learned_clauses));
 	for (int i = 0; i < (int)learned_clauses.size(); i++) {
-		if (BS(clauses, learned_clauses[i])) {
+		if (binary_search(clauses, learned_clauses[i])) {
 			SwapDel(learned_clauses, i);
 			i--;
 		}
@@ -476,22 +476,24 @@ void Preprocessor::MergeAdjEquivs() {
 
 bool Preprocessor::EliminateDefSimplicial() {
 	g_timer.start();
+    // constructs variable adjecency graph
 	Graph graph(vars, clauses);
 	TWPP twpp;
 	graph = twpp.PP(graph);
 	bool found = false;
 	while (true) {
 		int simps = 0;
+        // Here we figure out what COULD be POSSIBLY eliminated
 		vector<Var> extra(vars+1);
 		for (Var v = 1; v <= vars; v++) {
 			if (!graph.Neighbors(v).empty() && graph.IsSimp(v)) {
 				int poss = 0;
 				int negs = 0;
 				for (const auto& clause : clauses) {
-					if (BS(clause, PosLit(v))) {
+					if (binary_search(clause, PosLit(v))) {
 						poss++;
 					}
-					if (BS(clause, NegLit(v))) {
+					if (binary_search(clause, NegLit(v))) {
 						negs++;
 					}
 				}
@@ -502,6 +504,7 @@ bool Preprocessor::EliminateDefSimplicial() {
 				}
 			}
 		}
+
 		if (simps == 0) {
 			Tighten(true);
 			Subsume();
@@ -513,6 +516,8 @@ bool Preprocessor::EliminateDefSimplicial() {
 				return false;
 			}
 		}
+
+        // Setup system to figure out whether a variable is definable
 		Oracle oracle(vars + 2*simps, {});
 		for (const auto& cls : {clauses, learned_clauses}) {
 			for (const auto& clause : cls) {
@@ -543,6 +548,7 @@ bool Preprocessor::EliminateDefSimplicial() {
 				oracle.AddClause({NegLit(v), PosLit(extra[v]), NegLit(extra[v]+simps)}, false);
 			}
 		}
+        // now we compute what is definable
 		vector<char> def(vars+1);
 		int defs = 0;
 		for (Var v = 1; v <= vars; v++) {
@@ -559,6 +565,7 @@ bool Preprocessor::EliminateDefSimplicial() {
 				}
 			}
 		}
+        // eliminate the definable ones now
 		for (Var v = 1; v <= vars; v++) {
 			if (def[v]) {
 				auto nbs = graph.Neighbors(v);

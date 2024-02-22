@@ -224,7 +224,7 @@ int Ind(const std::vector<T>& a, const T& x) {
 }
 
 template<typename T>
-bool BS(const std::vector<T>& a, const T x) {
+bool binary_search(const std::vector<T>& a, const T x) {
   return std::binary_search(a.begin(), a.end(), x);
 }
 

@@ -108,7 +108,7 @@ bool Oracle::RemoveIfPossible(const vector<Lit>& clause) {
 	for (Lit lit : clause) {
 		for (Watch w : watches[lit]) {
 			if (w.size != (int)clause.size()) continue;
-			if (!BS(clause, w.blit)) continue;
+			if (!binary_search(clause, w.blit)) continue;
 			bool ok = true;
 			for (size_t i = w.cls; clauses[i]; i++) {
 				if (!tlits[clauses[i]]) {

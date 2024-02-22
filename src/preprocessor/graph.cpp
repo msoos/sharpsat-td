@@ -32,6 +32,7 @@ Graph::Graph(std::vector<Edge> edges) : vertex_map_(edges) {
   }
 }
 
+// Constructs variable adjecency graph
 Graph::Graph(int vars, const vector<vector<Lit>>& clauses) : Graph((int)vars+1) {
 	for (const auto& clause : clauses) {
 		for (int i = 0; i < (int)clause.size(); i++) {
@@ -793,7 +794,7 @@ int TreeDecomposition::Width() const {
 
 bool TreeDecomposition::InBag(int b, int v) const {
 	assert(1 <= b && b <= bs && 0 <= v && v < n);
-	return BS(bags[b], v);
+	return binary_search(bags[b], v);
 }
 
 bool TreeDecomposition::dfs(int x, int v, int p, vector<int>& u) const {

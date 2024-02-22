@@ -625,6 +625,7 @@ bool Preprocessor::EliminateDefSimplicial() {
 				clauses.push_back({PosLit(v)});
 			}
 		}
+        // Delete learned clauses that contain removed variables
 		for (int i = 0; i < (int)learned_clauses.size(); i++) {
 			bool fo = false;
 			for (Lit lit : learned_clauses[i]) {

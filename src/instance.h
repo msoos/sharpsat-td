@@ -797,6 +797,8 @@ void Instance<T_num>::PrepareTWScore(const sspp::TreeDecomposition& tdec, double
     cout << "TD var: " << i << " tdscore: " << std::setprecision(3) << std::fixed << extra_score[i] << endl;
   }
   // Now scores are between 0..1
+  // weight_mode == 1 means unweighted
+  // weight is supposed to be 100 as per GitHub README
   double coef = 1;
   if (weight_mode == 1) {
     if (weight > 0) {
